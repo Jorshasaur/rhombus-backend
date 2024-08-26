@@ -1,0 +1,279 @@
+/* When updating this file, please copy and paste it to
+pages-ui: scripts/build-thumbnail-styles/styles/email-styles.css */
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #434c5e;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 420px;
+    border: 1px solid black;
+    margin: 50px;
+}
+
+.title {
+    font-size: 32px;
+    line-height: 40px;
+    padding-top: 4px;
+    padding-bottom: 26px;
+    font-weight: 700;
+}
+
+p {
+    font-size: 14px;
+    line-height: 24px;
+}
+
+h1 {
+    font-size: 24px;
+    line-height: 36px;
+    padding-top: 30px;
+    padding-bottom: 6px;
+}
+
+h2 {
+    font-size: 19px;
+    line-height: 28px;
+    padding-top: 24px;
+    padding-bottom: 4px;
+}
+
+h3 {
+    font-size: 14px;
+    line-height: 24px;
+    padding-top: 23px;
+    padding-bottom: 1px;
+}
+
+pre {
+    background-color: #fcfdff;
+    border: 1px solid #e7ebf4;
+
+    font-size: 12px;
+    line-height: 24px;
+    font-family: monaco;
+
+    padding: 6px 4px;
+    margin: 4px 0;
+}
+
+.rhombus-email-class_img {
+    max-width: 100%;
+    display: block;
+    margin: 24px 0;
+}
+
+hr {
+    height: 2px;
+    background: #e7ebf4;
+    margin: 11px 0;
+    border: none;
+}
+
+blockquote {
+    font-size: 14px;
+    line-height: 24px;
+
+    border-left: 4px solid #e7ebf4;
+    padding-left: 20px;
+}
+
+li {
+    font-size: 14px;
+    line-height: 24px;
+}
+
+ul li {
+    margin-left: 35px;
+}
+
+ol li {
+    margin-left: 34px;
+}
+
+ul li[data-checked=false], ul li[data-checked=true] {
+    list-style-type: none;
+    margin-left: 15px;
+}
+
+ul > li[data-checked=false]::before, ul > li[data-checked=true]::before {
+    display: inline-block;
+    background-size: cover;
+    height: 14px;
+    width: 14px !important;
+    overflow: visible;
+    text-align: right;
+    margin-right: 6px;
+    content: '';
+}
+
+ul > li[data-checked=false]::before {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/icons/unchecked.png)
+}
+
+ul > li[data-checked=true]::before {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/icons/checked.png)
+}
+
+.rhombus-email-class_file, .rhombus-email-class_link {
+    border: 1px solid #e4e7ed;
+    border-radius: 4px;
+    padding: 11px 15px;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 24px 0;
+}
+
+.rhombus-email-class_link {
+    font-weight: 400;
+    color: #276ee5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rhombus-email-class_file-icon {
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    float: left;
+    height: 18px;
+    width: 18px;
+    margin-right: 12px;
+}
+
+.rhombus-email-class_extension {
+    font-weight: 400;
+    margin-left: 2px;
+}
+
+.rhombus-email-class_sketch {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/embeds/sketch.png)
+}
+
+.rhombus-email-class_studio {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/embeds/studio.png)
+}
+
+.rhombus-email-class_pdf {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/embeds/pdf.png)
+}
+
+.rhombus-email-class_excel {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/embeds/xlsx.png)
+}
+
+.rhombus-email-class_word {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/embeds/word.png)
+}
+
+.rhombus-email-class_powerpoint {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/embeds/pptx.png)
+}
+
+.rhombus-email-class_movie {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/embeds/generic-movie.png)
+}
+
+.rhombus-email-class_unknown {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/embeds/generic-file.png)
+}
+
+.rhombus-email-class_embed-icon {
+    background-image: url(https://invisionapp-cdn.com/invisionapp-email-assets/rhombus/embeds/invision-open.png)
+}
+
+.rhombus-email-class_embed {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 24px 0;
+}
+
+.rhombus-email-class_embed .rhombus-email-class_name {
+    font-weight: 400;
+}
+
+.rhombus-email-class_embed .rhombus-email-class_header {
+    border: 1px solid #e4e7ed;
+    padding: 12px 15px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.rhombus-email-class_embed .rhombus-email-class_img {
+    margin: 0;
+}
+
+.rhombus-email-class_emoji {
+    margin: 0px 2px;
+    display: inline;
+}
+
+.rhombus-email-class_emoji img {
+    vertical-align: sub;
+}
+
+code {
+    font-family: monaco;
+    font-size: 12px;
+    background: #f0f0f0;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+span.rhombus-email-class_change, strong.rhombus-email-class_change, em.rhombus-email-class_change, u.rhombus-email-class_change, s.rhombus-email-class_change, a.rhombus-email-class_change {
+    background: rgba(9, 186, 166, 0.25);
+    padding: 2px 0;
+}
+
+strong.rhombus-email-class_change *, em.rhombus-email-class_change *, u.rhombus-email-class_change *, s.rhombus-email-class_change *, a.rhombus-email-class_change * {
+    background: none;
+}
+
+code.rhombus-email-class_change {
+    background: rgba(9, 186, 166, 0.25) !important;
+    padding: 2px 4px;
+}
+
+hr.rhombus-email-class_change {
+    background: rgba(9, 186, 166, 0.25);
+    padding: 0;
+}
+
+pre.rhombus-email-class_change {
+    background: rgba(9, 186, 166, 0.25);
+}
+
+.rhombus-email-class_emoji.change {
+    background: rgba(9, 186, 166, 0.25);
+    margin: 0px 2px;
+}
+
+.rhombus-email-class_embed-change {
+    border: 4px solid rgba(9, 186, 166, 0.25);
+}
+
+table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    font-size: 14px;
+    font-weight: 200;
+    line-height: 21px;
+    letter-spacing: 0.33px;
+    color: #182237;
+}
+
+table tr {
+    margin: 0; padding: 0;
+}
+
+table td {
+    border: 1px solid #EBECEE;
+    padding: 3px 8px;
+    margin: 0;
+}

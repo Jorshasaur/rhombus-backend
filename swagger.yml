@@ -1,0 +1,1664 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Pages API
+  description: >
+    ## Summary
+
+    The Pages API is domain service for Pages
+
+    ## Uploading an Asset
+
+    1. A client requests to upload an asset to  `/documents/{documentId}/assets/request-upload` enpoint and it returns urls for upload the assets
+
+    2. The client uploads the asset by making a binary `POST` request to the url with the appropriate `Content-Type` header (e.g. image/jpeg).
+
+    3. The client confirms success upload by calling `/documents/{documentId}/assets/finish-upload` endpoint and it returns asset urls for given ids.
+
+
+host: pages-api-svc
+basePath: /v1
+schemes:
+  - https
+produces:
+  - application/json
+consumes:
+  - application/json
+responses:
+  '400':
+    description: 'Request was unable to parse, bad JSON or query arguments'
+    schema:
+      type: object
+      properties:
+        message:
+          description: |
+            Human-readable message for the error, should provide remediation
+            instructions
+          type: string
+  '403':
+    description: Permissions denied
+    schema:
+      type: object
+      properties:
+        message:
+          description: |
+            Human-readable message for the error, should provide remediation
+            instructions
+          type: string
+  '404':
+    description: Resource not found
+    schema:
+      type: object
+      properties:
+        message:
+          description: |
+            Human-readable message for the error, should provide remediation
+            instructions
+          type: string
+  '422':
+    description: 'Invalid request, missing required parameters'
+    schema:
+      type: object
+      properties:
+        message:
+          description: |
+            Human-readable message for the error, should provide remediation
+            instructions
+          type: string
+  '500':
+    description: 'Server encountered a critical error, but the request appears valid'
+    schema:
+      type: object
+      properties:
+        message:
+          description: |
+            Human-readable message for the error, should provide remediation
+            instructions
+          type: string
+
+paths:
+  '/documents/new':
+    post:
+      tags:
+        - Documents
+      summary: Creates new document
+      description: >
+        Creates new document
+      parameters:
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - $ref: '#/parameters/includeContents'
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+            - title
+            properties:
+              title:
+                type: string
+                description: Document title
+              spaceId:
+                type: string
+                description: Space id
+            example:
+              title: Untitled
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/DocumentResponse'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}':
+    get:
+      tags:
+        - Documents
+      summary: Get document
+      description: >
+        Get document
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - $ref: '#/parameters/includeContents'
+        - $ref: '#/parameters/includeMemberships'
+        - $ref: '#/parameters/includeSubscriptions'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/DocumentResponse'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/text':
+    get:
+      tags:
+        - Documents
+      summary: Get document text
+      description: >
+        Get document text
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/DocumentTextResponse'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/revisionsSinceRevision/{revisionNum}':
+    get:
+      tags:
+        - Documents
+      summary: Get revisions since revision
+      description: >
+        Get revisions since revision
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: revisionNum
+          in: path
+          description: Revision number
+          required: true
+          type: number
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/RevisionsResponse'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/archive':
+    post:
+      tags:
+        - Documents
+      summary: Archive document
+      description: >
+        Archive document
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Success'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/unarchive':
+    post:
+      tags:
+        - Documents
+      summary: Unarchive document
+      description: >
+        Unarchive document
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Success'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/subscribe':
+    post:
+      tags:
+        - Documents
+      summary: Subscribe user for document notifications
+      description: >
+        Subscribe user for document notifications
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Success'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/unsubscribe':
+    post:
+      tags:
+        - Documents
+      summary: Unsubscribe user from document notifications
+      description: >
+        Unsubscribe user from document notifications
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Success'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/permissions':
+    get:
+      tags:
+        - Document Permissions
+      summary: Get document permissions for given user
+      description: >
+        Add user to document
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            $ref: '#/definitions/MembershipPermissions'
+  '/documents/permissions':
+    get:
+      tags:
+        - Document Permissions
+      summary: Get several document permissions for a given user
+      description: >
+        Get a list of permissions for a user on a list of given documents
+      parameters:
+        - name: documentIds
+          description: >
+            A list of comma separated document ID's.
+          required: true
+          in: query
+          type: array
+          items:
+            type: string
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            $ref: '#/definitions/DocumentsPermissions'
+  '/documents/{documentId}/memberships':
+    get:
+      tags:
+        - Document Membership
+      summary: Get document members
+      description: >
+        Get document members
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            required:
+            - members
+            - success
+            properties:
+              members:
+                type: array
+                items:
+                  $ref: '#/definitions/Member'
+              success:
+                type: boolean
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/memberships/add':
+    post:
+      tags:
+        - Document Membership
+      summary: Add user to document
+      description: >
+        Add user to document
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              members:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    userId:
+                      type: number
+                      example: 1
+                    permissions:
+                      $ref: '#/definitions/MembershipPermissions'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              members:
+                type: array
+                items:
+                  $ref: '#/definitions/Membership'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/memberships/{memberId}':
+    post:
+      tags:
+        - Document Membership
+      summary: Update user membership
+      description: >
+        Update user membership
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/memberId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              permissions:
+                $ref: '#/definitions/MembershipPermissions'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+    delete:
+      tags:
+        - Document Membership
+      summary: Remove user from document
+      description: >
+        Remove user from document
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/memberId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/access-settings':
+    get:
+      tags:
+        - Document Access Settings
+      summary: Get document access settings
+      description: >
+        Get document access settings
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              visibility:
+                  $ref: '#/definitions/Visibility'
+              permissions:
+                  $ref: '#/definitions/Permissions'
+              removeMembers:
+                  type: boolean
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+    post:
+      tags:
+        - Document Access Settings
+      summary: Set document access settings
+      description: >
+        Set document access settings
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              visibility:
+                $ref: '#/definitions/Visibility'
+              permissions:
+                $ref: '#/definitions/Permissions'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              visibility:
+                $ref: '#/definitions/Visibility'
+              permissions:
+                $ref: '#/definitions/Permissions'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/teams/{teamId}/documents':
+    get:
+      tags:
+        - Documents
+      summary: List of team documents
+      description: >
+        Returns a list of Document objects based on given `teamId`
+      parameters:
+        - $ref: '#/parameters/teamId'
+        - $ref: '#/parameters/userIdInQuery'
+        - $ref: '#/parameters/includeThumbnails'
+        - $ref: '#/parameters/isArchived'
+        - $ref: '#/parameters/documentIds'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              documents:
+                type: array
+                items:
+                  $ref: '#/definitions/Document'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/teams/{teamId}/users/{userId}/documents':
+    get:
+      tags:
+        - Documents
+      summary: List of user documents in given team
+      description: >
+        Returns a list of Document objects based on given `teamId` and `userId`
+      parameters:
+        - $ref: '#/parameters/teamId'
+        - $ref: '#/parameters/userId'
+        - $ref: '#/parameters/userIdInQuery'
+        - $ref: '#/parameters/includeThumbnails'
+        - $ref: '#/parameters/isArchived'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              documents:
+                type: array
+                items:
+                  $ref: '#/definitions/Document'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+  '/documents/{documentId}/assets/request-upload':
+    post:
+      tags:
+        - Assets
+      summary: Creates one or more asset upload requests.
+      description: >
+        Creates one or more asset upload requests. The response will be an
+        array of upload urls that the client needs to upload the asset
+        to.
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              assets:
+                type: array
+                items:
+                  $ref: '#/definitions/AssetRequest'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              assets:
+                type: array
+                items:
+                  $ref: '#/definitions/AssetRequestResult'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/documents/{documentId}/assets/finish-upload':
+    post:
+      tags:
+        - Assets
+      summary: Mark one or more asset as uploaded
+      description: |
+        Mark one or more asset as uploaded
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              assetIds:
+                type: array
+                items:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              assets:
+                type: array
+                items:
+                  $ref: '#/definitions/Asset'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/documents/{documentId}/assets/{assetId}':
+    get:
+      tags:
+        - Assets
+      summary: Gets asset for given `assetId`
+      description: |
+        Gets asset (id, url, fileName) for given `assetId`
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - $ref: '#/parameters/assetId'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Asset'
+
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/documents/{documentId}/assets/copy':
+    post:
+      tags:
+        - Assets
+      summary: Copy asset from another document and returns new Asset
+      description: |
+        Copy asset from another document and returns new Asset
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              assetId:
+                type: string
+                format: uuid
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Asset'
+
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/documents/{documentId}/assets/copy-from-url':
+    post:
+      tags:
+        - Assets
+      summary: Copy asset url into given document
+      description: |
+        Copy asset url into given document
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              assetUrl:
+                type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Asset'
+
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/documents/{documentId}/assets/':
+    get:
+      tags:
+        - Assets
+      summary: Gets all assets for given `documentId`
+      description: |
+        Gets all assets (id, url, fileName) for given `documentId`
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              assets:
+                type: array
+                items:
+                  $ref: '#/definitions/Asset'
+
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/documents/{documentId}/assets/external-document/{service}/{serviceAssetId}':
+    get:
+      tags:
+        - Assets
+      summary: Gets all assets for given `documentId`
+      description: |
+        Gets all assets (id, url, fileName) for given `documentId`
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: service
+          description: Service type
+          in: path
+          type: string
+          required: true
+        - name: serviceAssetId
+          description: Service asset id
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ExternalDocumentResponse'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/documents/{documentId}/assets/flat-prototype':
+    get:
+      tags:
+        - Assets
+      summary: Flat prototype by url
+      description: |
+        Flat prototype by url
+      parameters:
+        - $ref: '#/parameters/documentId'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: url
+          description: Flat prototype url
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/PrototypeResponse'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/operations/submit':
+    post:
+      tags:
+        - Operation
+      summary: Submit operation
+      description: |
+        Submit operation
+      parameters:
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/userIdInQuery'
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/definitions/SubmitOperation'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            $ref: '#/definitions/Operation'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/documents/{documentId}/thumbnail':
+    get:
+      tags:
+        - Thumbnail
+      summary: Get the thumbnail of a given document
+      description: |
+        Get the thumbnail of a given document
+      parameters:
+        - $ref: '#/parameters/documentId'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/AssetInfo'
+
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/private/documents/{documentId}':
+    get:
+      tags:
+        - Private
+      summary: Get document
+      description: >
+        Get document
+      parameters:
+        - $ref: '#/parameters/documentId'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/PrivateDocumentResponse'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/private/teams/{teamId}/documents':
+    get:
+      tags:
+        - Private
+      summary: List of team documents
+      description: >
+        Returns a list of Document objects based on given `teamId`
+      parameters:
+        - $ref: '#/parameters/teamId'
+        - $ref: '#/parameters/includeThumbnails'
+        - $ref: '#/parameters/isArchived'
+        - $ref: '#/parameters/documentIds'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              documents:
+                type: array
+                items:
+                  $ref: '#/definitions/Document'
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+  '/permissions':
+    get:
+      tags:
+        - Permissions
+      summary: Get permissions in v7 format for given actions and documents
+      parameters:
+        - $ref: '#/parameters/userIdInQuery'
+        - $ref: '#/parameters/teamIdInQuery'
+        - $ref: '#/parameters/actionsInQuery'
+        - $ref: '#/parameters/documentIdsString'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/GetPermissionsResponse'
+
+        '400':
+          $ref: '#/responses/400'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '500':
+          $ref: '#/responses/500'
+
+definitions:
+  AssetInfo:
+    type: object
+    properties:
+      assetKey:
+        type: string
+        example: 72cc737f-2648-47a6-be9f-764002a7c31b
+      s3_bucket:
+        type: string
+        example: v7.storage.invisionapp.com
+      s3_key:
+        type: string
+        example: objectName
+      teamId:
+        type: string
+        example: the team ID for this asset
+      companyId:
+        type: string
+        example: the company ID for this asset
+      url:
+        type: string
+        example: >-
+          https://in.v7.shared.invision.works/assetsA_dWkzeVR5UnRoYmZ2ZDEyM6oEZBzllAkuCOn1dj2PvhPhpc-_-w1-S8XjRNHr_hlrFEkPm1IEnKMUBQh3MwPyqkA-SXCW_ry0qn0U_zyaoqgxAWu3G8bwbglHlWo3Ut6H
+      path:
+        type: string
+        example: >-
+          assets/A_dWkzeVR5UnRoYmZ2ZDEyM6oEZBzllAkuCOn1dj2PvhPhpc-_-w1-S8XjRNHr_hlrFEkPm1IEnKMUBQh3MwPyqkA-SXCW_ry0qn0U_zyaoqgxAWu3G8bwbglHlWo3Ut6H
+      createdAt:
+        type: string
+        example: '2018-03-12 18:48:32.0'
+      uploadedAt:
+        type: string
+        example: '2018-03-12 18:48:32.0'
+      content_length:
+        type: integer
+        example: 24532
+      content_type:
+        type: string
+        example: image/png
+
+  AssetRequest:
+    type: object
+    properties:
+      fileName:
+        type: string
+        description: Asset file name
+
+  AssetRequestResult:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: The ID of the Asset record
+      fileName:
+        type: string
+        description: Asset file name
+      url:
+        type: string
+        description: Url for upload
+
+  Asset:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: The ID of the Asset record
+      fileName:
+        type: string
+        description: Asset file name
+      url:
+        type: string
+        description: Asset url
+
+  DocumentMembership:
+    type: object
+    properties:
+      userId:
+        type: number
+        example: 1
+
+  Membership:
+    type: object
+    properties:
+      userId:
+        type: number
+        example: 1
+      permissions:
+        $ref: '#/definitions/MembershipPermissions'
+
+  Member:
+    type: object
+    required:
+    - userId
+    - vendorId
+    - teamId
+    - name
+    - email
+    - avatarId
+    - avatarUrl
+    - isDefaultAvatar
+    properties:
+      userId:
+        type: integer
+        description: User id
+        example: 1
+      vendorId:
+        type: string
+        description: User vendor id
+        example: 'vendor-id'
+      teamId:
+        type: string
+        example: 'cjcjeoi2w0000rn35c23q98ou'
+      name:
+        type: string
+        example: 'Member V7'
+      email:
+        type: string
+        example: 'member-v7@invisionapp.com'
+      avatarId:
+        type: string
+        example: 'A943E239-AFF3-C779-56D5A4932B47C0EE'
+      avatarUrl:
+        type: string
+        example: 'https://dev-invisionapp.s3.amazonaws.com/avatar/A943E239-AFF3-C779-56D5A4932B47C0EE'
+      isDefaultAvatar:
+        type: boolean
+        example: false
+      lastViewed:
+        type: string
+        format: date-time
+        example: '2018-02-28T21:39:18.000Z'
+      permissions:
+        $ref: '#/definitions/MembershipPermissions'
+
+  Document:
+    type: object
+    required:
+    - id
+    - title
+    - ownerId
+    - teamId
+    - url
+    - memberships
+    - createdAt
+    - updatedAt
+    - isArchived
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: 'ccd533e7-d917-4601-b708-9bfea3e26f04'
+      title:
+        type: string
+        example: 'Untitled'
+      ownerId:
+        type: integer
+        description: Owner user id
+        example: 1
+      teamId:
+        type: string
+        example: 'cjcjeoi2w0000rn35c23q98ou'
+      url:
+        type: string
+        example: '/rhombus/Untitled-eXNEfNKEHjaDSqU4gZUv8M'
+      memberships:
+        type: array
+        items:
+          $ref: '#/definitions/DocumentMembership'
+      createdAt:
+        type: string
+        format: date-time
+        example: '2018-02-28T21:39:18.000Z'
+      updatedAt:
+        type: string
+        format: date-time
+        example: '2018-02-28T21:39:18.000Z'
+      archivedAt:
+        default: null
+        type: string
+        format: date-time
+        example: '2018-02-28T21:39:18.000Z'
+      isArchived:
+        type: boolean
+        example: false
+
+  Ops:
+    type: object
+    description: For more info about deltas see https://github.com/quilljs/delta
+
+  DeltaStatic:
+    type: object
+    properties:
+      ops:
+        type: array
+        items:
+          $ref: '#/definitions/Ops'
+
+  Contents:
+    type: object
+    properties:
+      revision:
+        type: number
+      delta:
+        $ref: '#/definitions/DeltaStatic'
+
+  Permissions:
+    type: integer
+    description: 0 = edit, 1 = comment
+
+  Visibility:
+    type: integer
+    description: 0 = all, 1 = team, 2 = invite
+
+  MembershipPermissions:
+    type: object
+    properties:
+      canEdit:
+        type: boolean
+        example: true
+      canComment:
+        type: boolean
+        example: false
+
+  DocumentTextResponse:
+    type: object
+    required:
+    - text
+    properties:
+      text:
+        type: string
+
+  DocumentResponse:
+    type: object
+    required:
+    - document
+    - success
+    properties:
+      document:
+        $ref: '#/definitions/Document'
+      contents:
+        $ref: '#/definitions/Contents'
+      success:
+        type: boolean
+      permissions:
+        $ref: '#/definitions/MembershipPermissions'
+      isSubscribed:
+        type: boolean
+
+  PrivateDocumentResponse:
+    type: object
+    required:
+    - document
+    - success
+    properties:
+      document:
+        $ref: '#/definitions/Document'
+      success:
+        type: boolean
+
+  DocumentsPermissions:
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/MembershipPermissions'
+
+  Success:
+    type: object
+    required:
+    - success
+    properties:
+      success:
+        type: boolean
+
+  Revision:
+    type: object
+    required:
+    - operation
+    - revision
+    - submissionId
+    - userId
+    - createdAt
+    properties:
+      operation:
+        $ref: '#/definitions/DeltaStatic'
+      revision:
+        type: number
+      submissionId:
+        type: string
+      userId:
+        type: number
+      createdAt:
+        type: number
+
+  RevisionsResponse:
+    type: object
+    required:
+    - success
+    - revisions
+    properties:
+      success:
+        type: boolean
+      revisions:
+        type: array
+        items:
+          $ref: '#/definitions/Revision'
+
+  SubmitOperation:
+    type: object
+    required:
+    - documentId
+    - revision
+    - submissionId
+    - operation
+    properties:
+      documentId:
+        type: string
+      revision:
+        type: number
+      submissionId:
+        type: string
+      operation:
+        $ref: '#/definitions/DeltaStatic'
+
+  Operation:
+    type: object
+    required:
+    - revision
+    - submissionId
+    - operation
+    properties:
+      revision:
+        type: number
+      submissionId:
+        type: string
+      operation:
+        $ref: '#/definitions/DeltaStatic'
+
+  ThreadId:
+    type: object
+    properties:
+      threadId:
+        type: string
+
+  Threads:
+    type: array
+    items:
+      $ref: '#/definitions/Thread'
+
+  Thread:
+    type: object
+    required:
+    - threadId
+    - comments
+    - startedAt
+    - resolved
+    properties:
+      threadId:
+        type: string
+      comments:
+        type: array
+        items:
+          $ref: '#/definitions/Comment'
+      startedAt:
+        type: string
+        format: date-time
+        example: '2018-02-28T21:39:18.000Z'
+      resolved:
+        type: boolean
+
+  Comment:
+    type: object
+    required:
+    - commentId
+    - text
+    - source
+    - madeAt
+    - updatedAt
+    - userId
+    - isThreadStarter
+    properties:
+      commentId:
+        type: string
+      text:
+        type: string
+      source:
+        type: string
+      madeAt:
+        type: string
+        format: date-time
+        example: '2018-02-28T21:39:18.000Z'
+      updatedAt:
+        type: string
+        format: date-time
+        example: '2018-02-28T21:39:18.000Z'
+      userId:
+        type: number
+      isThreadStarter:
+        type: boolean
+
+  CommentMention:
+    type: object
+    required:
+    - token
+    - userId
+    properties:
+      token:
+        type: string
+      userId:
+        type: number
+
+  ExternalDocument:
+    type: object
+    required:
+    - name
+    - thumbnailUrl
+    properties:
+      name:
+        type: string
+      thumbnailUrl:
+        type: string
+
+  ExternalDocumentResponse:
+    type: object
+    required:
+    - externalDocument
+    properties:
+      externalDocument:
+        $ref: '#/definitions/ExternalDocument'
+
+  PrototypeResponse:
+    type: object
+    required:
+    - name
+    - isMobile
+    - width
+    - height
+    - updatedAt
+    properties:
+      name:
+        type: string
+      isMobile:
+        type: boolean
+      width:
+        type: number
+      height:
+        type: number
+      updatedAt:
+        type: string
+        format: date-time
+        example: '2018-02-28T21:39:18.000Z'
+      thumbnail:
+        type: string
+
+  GetPermissionsResponse:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        $ref: '#/definitions/PermissionsResponse'
+
+  PermissionsResponse:
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/PermissionsPerAction'
+
+  PermissionsPerAction:
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/PermissionsV7'
+
+  PermissionsV7:
+    type: object
+    properties:
+      allow:
+        type: boolean
+      force:
+        type: boolean
+
+parameters:
+  userId:
+    name: userId
+    in: path
+    description: The ID of the User
+    type: integer
+    required: true
+  userIdInQuery:
+    name: user_id
+    in: query
+    description: The ID of the User
+    type: integer
+    required: true
+  teamIdInQuery:
+    name: team_id
+    in: query
+    description: The ID of the Team
+    type: string
+    required: true
+  teamId:
+    name: teamId
+    in: path
+    description: The ID of the Team
+    type: string
+    required: true
+  documentId:
+    name: documentId
+    in: path
+    description: The ID of the Document
+    required: true
+    type: string
+  documentIdsString:
+    name: document_ids
+    in: query
+    description: A comma-separated list of documents
+    required: false
+    type: string
+  documentIds:
+    name: documentIds
+    description: >
+      Optional. A list of document ID's.
+
+      Could be also list of comma separated values
+    in: query
+    type: array
+    items:
+      type: string
+  actionsInQuery:
+    name: actions
+    in: query
+    description: The actions a user can do with a document
+    required: true
+    type: string
+  assetId:
+    name: assetId
+    in: path
+    description: The ID of the Asset record
+    required: true
+    type: string
+    format: uuid
+  includeContents:
+    name: includeContents
+    default: false
+    description: >
+      Optional. Include contents in response.
+    in: query
+    type: boolean
+  includeThumbnails:
+    name: includeThumbnails
+    default: false
+    description: >
+      Optional. Include thumbnails in response.
+    in: query
+    type: boolean
+  includeMemberships:
+    name: includeMemberships
+    default: false
+    description: >
+      Optional. Include memberships in response.
+    in: query
+    type: boolean
+  includeSubscriptions:
+    name: includeSubscriptions
+    default: false
+    description: >
+      Optional. Include document subscriptions in response.
+    in: query
+    type: boolean
+  memberId:
+    name: memberId
+    in: path
+    description: The ID of the Document member
+    required: true
+    type: integer
+  threadId:
+    name: threadId
+    in: path
+    description: The ID of the Thread
+    required: true
+    type: string
+  isArchived:
+    name: isArchived
+    default: false
+    description: >
+      Optional. Return archived documents
+    in: query
+    type: boolean

@@ -1,0 +1,49 @@
+import { ScreenThumbnail } from './ScreenThumbnail'
+
+export interface Screen {
+    id: number
+    hash: string
+    teamID: string
+    prototypeID: number
+    userID: number
+    screenType: string
+    screenTypeID: number
+    screenGroupID: number
+    sort: number
+    prioritySort: number
+    name: string
+    clientFilename: string
+    serverFilename: string
+    width: number
+    height: number
+    filesize: number
+    fixedHeaderHeight: number
+    fixedFooterHeight: number
+    fixedHeaderBackground: string
+    fixedFooterBackground: string
+    alignment: string
+    zoomScrollBehavior: number
+    backgroundColor: string
+    backgroundImageID: number
+    backgroundImagePosition: string
+    backgroundAutostretch: boolean
+    backgroundFrame: boolean
+    imageVersion: number
+    isProcessed: boolean
+    isArchived: boolean
+    isOverQuota: boolean
+    isPlaceholder: boolean
+    workflowStatusID: number
+    sourceID: number
+    syncSourceGuid: string
+    syncSourceDocumentID: string
+    syncSourcePageID: string
+    syncSourceObjectID: string
+    assetID: string
+    assetURL: string
+    createdAt: string
+    updatedAt: string
+    clientCreatedAt: string
+    clientUpdatedAt: string
+    thumbnails: ScreenThumbnail[]
+}

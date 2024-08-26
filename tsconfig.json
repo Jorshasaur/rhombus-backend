@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "outDir": "build",
+    "target": "es2019",
+    "lib": [
+      "DOM",
+      "es2019",
+      "es2020.bigint",
+      "es2020.string",
+      "es2020.symbol.wellknown"
+    ],
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "alwaysStrict": true,
+    "strictFunctionTypes": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "removeComments": true,
+    "paths": {
+      "*": [
+        "*",
+        "./node_modules/@types/*",
+        "./src/@types/*"
+      ]
+    }
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "./src/test"
+  ]
+}

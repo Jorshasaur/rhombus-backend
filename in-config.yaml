@@ -1,0 +1,9 @@
+default: {}
+
+testing:
+  DEBUG: true
+
+production:
+
+gateway:
+    /rhombus-api/ws:

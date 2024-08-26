@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocumentController GetDocumentAtRevision should return document revisions if launch darkly fails 1`] = `
+Delta {
+  "ops": Array [
+    Object {
+      "insert": "Untitled",
+    },
+    Object {
+      "attributes": Object {
+        "header": 1,
+      },
+      "insert": "
+",
+    },
+    Object {
+      "attributes": Object {
+        "author": 9,
+        "mark": Array [
+          "cjlp3mczq00003h5p9dm45frf",
+        ],
+      },
+      "insert": "Hello",
+    },
+    Object {
+      "attributes": Object {
+        "author": 9,
+      },
+      "insert": " World!",
+    },
+    Object {
+      "insert": "
+This is a document whose text is synced in ",
+    },
+    Object {
+      "attributes": Object {
+        "author": 9,
+      },
+      "insert": "re",
+    },
+    Object {
+      "insert": "a",
+    },
+    Object {
+      "attributes": Object {
+        "author": 9,
+      },
+      "insert": "l",
+    },
+    Object {
+      "insert": " time
+",
+    },
+    Object {
+      "insert": Object {
+        "block-embed": Object {
+          "authorId": 9,
+          "embedData": Object {
+            "fileName": "test.md",
+            "id": "78beb7ba-aec4-41d2-8977-dfcbfd8f4589",
+          },
+          "service": "file",
+          "uuid": "1704b998-5c8a-4db6-9848-a9342b3f4366",
+          "version": 1,
+        },
+      },
+    },
+    Object {
+      "attributes": Object {
+        "author": 9,
+      },
+      "insert": "aaa",
+    },
+    Object {
+      "insert": "
+",
+    },
+    Object {
+      "attributes": Object {
+        "author": 9,
+      },
+      "insert": "aaaa ",
+    },
+    Object {
+      "attributes": Object {
+        "author": 9,
+      },
+      "insert": Object {
+        "document-mention": Object {
+          "documentMention": "true",
+        },
+      },
+    },
+    Object {
+      "insert": "
+",
+    },
+    Object {
+      "attributes": Object {
+        "author": 9,
+      },
+      "insert": "aaa ",
+    },
+    Object {
+      "attributes": Object {
+        "author": 9,
+      },
+      "insert": Object {
+        "mention": Object {
+          "email": "member-v7@invisionapp.com",
+          "id": 9,
+          "name": "Member V7",
+          "userId": 9,
+        },
+      },
+    },
+    Object {
+      "insert": "
+",
+    },
+    Object {
+      "insert": Object {
+        "block-embed": Object {
+          "authorId": 9,
+          "embedData": Object {
+            "id": "26070848-de43-4a8c-8b91-421d8240c864",
+            "threadIds": Array [
+              "cjn1vkzrq00013h5tdpmjse0x",
+            ],
+          },
+          "service": "image",
+          "uuid": "6900619d-b244-4772-8b5a-580f7c0d1391",
+          "version": 1,
+        },
+      },
+    },
+    Object {
+      "attributes": Object {
+        "author": 9,
+      },
+      "insert": "bbb",
+    },
+    Object {
+      "insert": "
+
+",
+    },
+  ],
+}
+`;

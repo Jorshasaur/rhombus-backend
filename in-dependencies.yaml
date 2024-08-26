@@ -1,0 +1,14 @@
+dependencies:
+- name: postgres
+- name: redis
+- name: users-api
+- name: assets-api
+- name: freehand-api-v7
+- name: emailer
+- name: eventbus
+  default_outbound_topic: true
+  default_inbound_topic: true
+  topics:
+    public:
+      freehand-api-v7.outbound:
+        owner: false

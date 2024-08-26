@@ -1,0 +1,117 @@
+# https://invisionapp.atlassian.net/wiki/spaces/EngVel/pages/860357873/EV+2.0+-+A+guide+to+the+service+spec
+specVersion: v1
+kind: kubernetes-service
+description: |
+  pages api this domain service provides pages data to several other services.
+networking:
+  ingress:
+    private:
+      paths:
+      - path: /
+  edgeGateway:
+    paths:
+    - path: "/rhombus-api/ws"
+lifecycle:
+  terminationGracePeriodSeconds: 120
+health:
+  livenessProbe:
+    httpGet:
+      path: /healthcheck
+      port: 80
+    initialDelaySeconds: 30
+    timeoutSeconds: 15
+  readinessProbe:
+    httpGet:
+      path: /healthcheck
+      port: 80
+    initialDelaySeconds: 5
+    timeoutSeconds: 15
+    failureThreshold: 3
+    successThreshold: 1
+observability:
+  metrics:
+    datadog: {}
+    newRelic: {}
+    statsdExporter:
+      timerConfigs:
+      - type: histogram
+        buckets: '[ 0.01, 0.1, 0.25, 0.5, 1, 5 ]'
+config:
+  default:
+    resources:
+      limits:
+        cpu: "768m"
+        memory: "2048Mi"
+      requests:
+        cpu: "512m"
+        memory: "1024Mi"
+    autoscaling:
+      minReplicas: 3
+      maxReplicas: 6
+      cpuPercentThreshold: "80%"
+      memoryPercentThreshold: "80%"
+    disruption:
+      maxUnavailablePercent: "33%"
+    env:
+    - name: AWS_ACCESS_KEY
+      from: "environment"
+    - name: AWS_SECRET_KEY
+      from: "environment"
+    - name: METADATA_TYPE
+      from: "metadata"
+    - name: METADATA_NAME
+      from: "metadata"
+    - name: EVENTBUS_USE_SASL
+      from: "environment"
+    - name: EVENTBUS_USERNAME
+      from: "environment"
+    - name: EVENTBUS_PASSWORD
+      from: "environment"
+    - name: EVENTBUS_NAMESPACE_PREFIX
+      from: "environment"
+    - name: EVENTBUS_BROKERS
+      from: "environment"
+    - name: LAUNCH_DARKLY_API_KEY
+      from: "environment"
+    - name: LAUNCH_DARKLY_USER
+      from: "environment"
+    - name: PAGES_THUMBNAILER_FUNCTION_ARN
+      from: "environment"
+    - name: NODE_ENV
+      value: "production"
+    - name: POSTGRES_DATABASE
+      from: "environment"
+    - name: POSTGRES_USER
+      from: "environment"
+    - name: POSTGRES_PASSWORD
+      from: "environment"
+    - name: POSTGRES_HOST
+      from: "environment"
+    - name: PAGES_API_REDIS_HOST
+      from: "environment"
+    - name: SEGMENT_V7_WRITE_KEY
+      from: "environment"
+    - name: LIGHTSTEP_ACCESS_TOKEN
+      from: "environment"
+    - name: LIGHTSTEP_HOST
+      from: "environment"
+    - name: LIGHTSTEP_PORT
+      from: "environment"
+    - name: LIGHTSTEP_PROTOCOL
+      from: "environment"
+  overrides:
+  - selector:
+      tier: testing
+    env:
+    - name: ENVIRONMENT
+      value: beta
+  - selector:
+      tier: preview
+    env:
+    - name: ENVIRONMENT
+      value: preview
+  - selector:
+      tier: multi-tenant
+    env:
+    - name: ENVIRONMENT
+      value: multi-tenant

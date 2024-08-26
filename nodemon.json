@@ -1,0 +1,18 @@
+{
+  "watch": [
+    "src"
+  ],
+  "verbose": true,
+  "ext": "ts",
+  "ignore": [
+    "src/test/**/*.spec.ts",
+    ".git",
+    "node_modules/**/node_modules"
+  ],
+  "env": {
+    "ENVIRONMENT": "local"
+  },
+  "events": {
+    "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+  }
+}

@@ -1,0 +1,18 @@
+specVersion: v1
+owner:
+  active:
+    team: studio-harmony-eng
+    since: 2017-10-26
+description: "This domain service provides rhombus data to serveral BFF services."
+type: service
+visibility: private
+service-type: domain
+platform-version: 7
+service-tier: 2
+resources:
+- id: pages-api
+  spec-path: pages-api.yaml
+- id: pages-api-worker
+  spec-path: pages-api-worker.yaml
+code-coverage:
+  goal-percent: 65
