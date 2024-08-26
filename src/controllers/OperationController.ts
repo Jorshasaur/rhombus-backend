@@ -38,6 +38,8 @@ import SocketManager from '../util/SocketManager'
 import { PaneRevision, transformPaneOperation } from '../models/PaneRevision'
 import { getPane, getDocumentIdsForPane } from './Helpers'
 
+// The OperationController used to handle operations and syncing
+
 class ValidationError extends Error {}
 
 export class OperationController {
